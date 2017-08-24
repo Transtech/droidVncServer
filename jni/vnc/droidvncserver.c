@@ -459,7 +459,10 @@ int main(int argc, char **argv)
         }
 
         L("Send repeater id %s on socket %d\n",repeaterId, sock);
-        if(write(sock, repeaterId, strlen(repeaterId)) != strlen(repeaterId))
+        char repbuf[250]; //repeater ID payload is always 250 bytes
+        memset(repbuf, 0, 250);
+        strncpy(repbuf, repeaterId, strlen(repeaterId));
+        if(write(sock, repeaterId, 250) != 250)
         {
             L("Couldn't send repeater id to host: %s\n",rhost);
         }
@@ -469,7 +472,6 @@ int main(int argc, char **argv)
             cl = rfbNewClient(vncscr,sock);
             cl->reverseConnection = FALSE;
             cl->onHold = FALSE;
-            usleep(250000); //wait a bit so the 'RFB..' payload is separated from the repeater ID
         }
     }
     else if (rhost) {
