@@ -1,7 +1,7 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-LIBVNCSERVER_ROOT:=./LibVNCServer-0.9.9
+LIBVNCSERVER_ROOT:=./LibVNCServer-0.9.12
 
 LIBVNCSERVER_SRC_FILES:= \
 	$(LIBVNCSERVER_ROOT)/libvncserver/main.c \
@@ -11,8 +11,6 @@ LIBVNCSERVER_SRC_FILES:= \
 	$(LIBVNCSERVER_ROOT)/libvncserver/sockets.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/stats.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/corre.c \
-	$(LIBVNCSERVER_ROOT)/libvncserver/rfbssl_openssl.c \
-	$(LIBVNCSERVER_ROOT)/libvncserver/rfbcrypto_openssl.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/hextile.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/rre.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/translate.c \
@@ -21,7 +19,6 @@ LIBVNCSERVER_SRC_FILES:= \
 	$(LIBVNCSERVER_ROOT)/libvncserver/cursor.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/font.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/draw.c \
-	$(LIBVNCSERVER_ROOT)/libvncserver/websockets.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/selbox.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/cargs.c \
 	$(LIBVNCSERVER_ROOT)/libvncserver/ultra.c \
@@ -37,9 +34,12 @@ LIBVNCSERVER_SRC_FILES:= \
 	$(LIBVNCSERVER_ROOT)/common/zywrletemplate.c \
 	$(LIBVNCSERVER_ROOT)/common/turbojpeg.c
 
+#	$(LIBVNCSERVER_ROOT)/libvncserver/rfbssl_openssl.c \
+#	$(LIBVNCSERVER_ROOT)/libvncserver/rfbcrypto_openssl.c 
+#	$(LIBVNCSERVER_ROOT)/libvncserver/websockets.c \
+
 LOCAL_CFLAGS  +=  -Wall \
 									-O3 \
-									-DLIBVNCSERVER_WITH_WEBSOCKETS \
 									-DLIBVNCSERVER_HAVE_LIBPNG \
 									-DLIBVNCSERVER_HAVE_ZLIB \
 									-DLIBVNCSERVER_HAVE_LIBJPEG
