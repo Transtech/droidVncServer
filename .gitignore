@@ -2,3 +2,8 @@ bin
 gen
 libs
 obj
+.gradle/
+.idea/
+build/
+out/
+*.iml
