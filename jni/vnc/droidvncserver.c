@@ -193,7 +193,7 @@ void newVncServer(int argc, char **argv)
 
     vncscr->alwaysShared = TRUE;
     vncscr->handleEventsEagerly = TRUE;
-    vncscr->deferUpdateTime = 0;
+    vncscr->deferUpdateTime = 5;
 //    vncscr->displayHook = displayHook;
 }
 
