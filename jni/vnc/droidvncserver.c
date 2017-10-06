@@ -213,8 +213,7 @@ void initVncServer()
                 vncscr->serverFormat.bitsPerPixel);
 
         //      sendMsgToGui("~SHOW|Unsupported pixel depth, please send bug report.\n");
-        close_app();
-        exit(-1);
+        close_app_with_status(-1);
     }
 
     /* Mark as dirty since we haven't sent any updates at all yet. */
@@ -257,6 +256,11 @@ void rotate(int value)
 
 
 void close_app()
+{
+    close_app_with_status(0);
+}
+
+void close_app_with_status(int status)
 { 	
     L("Cleaning up...\n");
     if (method == FRAMEBUFFER)
@@ -271,7 +275,7 @@ void close_app()
     cleanupInput();
     sendServerStopped();
     unbindIPCserver();
-    exit(0); /* normal exit status */
+    exit(status); /* normal exit status */
 }
 
 
@@ -283,7 +287,7 @@ void extractReverseHostPort(char *str)
     rhost = (char *) malloc(len+1);
     if (! rhost) {
         L("reverse_connect: could not malloc string %d\n", len);
-        exit(-1);
+        exit(2);
     }
     strncpy(rhost, str, len);
     rhost[len] = '\0';
@@ -456,6 +460,7 @@ int main(int argc, char **argv)
         if(sock < 0)
         {
             L("Couldn't connect to repeater host: %s\n",rhost);
+            close_app_with_status(3);
         }
 
         L("Send repeater id %s on socket %d\n",repeaterId, sock);
@@ -465,6 +470,7 @@ int main(int argc, char **argv)
         if(write(sock, repeaterId, 250) != 250)
         {
             L("Couldn't send repeater id to host: %s\n",rhost);
+            close_app_with_status(3);
         }
         else
         {
@@ -496,7 +502,7 @@ int main(int argc, char **argv)
     while (running) 
     {
         usec=(vncscr->deferUpdateTime+standby)*1000;
-        clock_t start = clock();
+//        clock_t start = clock();
         rfbProcessEvents(vncscr,usec);
 
         if (idle)
