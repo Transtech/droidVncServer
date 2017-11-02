@@ -167,6 +167,7 @@ void newVncServer(int argc, char **argv)
 
     if (strcmp(VNC_PASSWORD,"")!=0)
     {
+        L("Setting password to '%s'\n", VNC_PASSWORD);
         char **passwords = (char **)malloc(2 * sizeof(char **));
         passwords[0] = VNC_PASSWORD;
         passwords[1] = NULL;
@@ -340,6 +341,7 @@ void printUsage(char **argv)
     L("\nandroidvncserver [parameters]\n"
             "-f <device>\t- Framebuffer device (only with -m fb, default is /dev/graphics/fb0)\n"
             "-h\t\t- Print this help\n"
+            "-d\t\t- Enable debugging\n"
             "-m <method>\t- Display grabber method\n\tfb: framebuffer\n\tgralloc: gralloc HAL\n\tflinger: surface flinger compositor\n\tadb: slower, but should be compatible with all devices\n"
             "-p <password>\t- Password to access server\n"
             "-r <rotation>\t- Screen rotation (degrees) (0,90,180,270)\n"
@@ -360,6 +362,7 @@ int main(int argc, char **argv)
     signal(SIGILL, close_app);
     long usec;
     repeaterId[0] = '\0';
+    int lvl;
 
     if(argc > 1) {
         int i=1;
@@ -370,6 +373,10 @@ int main(int argc, char **argv)
                     case 'h':
                         printUsage(argv);
                         exit(0); 
+                        break;
+                    case 'd': 
+                        i++; 
+                        rfbLogEnable(atoi(argv[i]));
                         break;
                     case 'p': 
                         i++; 
